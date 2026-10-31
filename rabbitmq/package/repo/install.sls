@@ -25,17 +25,19 @@ rabbitmq-package-repo-pkg-deps:
 
 rabbitmq-package-repo-erlang:
   pkgrepo.managed:
-    - name: deb {{ rabbitmq.pkg.repo.erlang.url }}/{{ osname|lower }} {{ oscodename }} main
+    - name: deb [arch=amd64 signed-by={{ rabbitmq.pkg.repo.keyring }}] {{ rabbitmq.pkg.repo.erlang.url }}/{{ osname|lower }}/{{ oscodename }} {{ oscodename }} main
     - file: /etc/apt/sources.list.d/erlang.list
-    - key_url: {{ rabbitmq.pkg.repo.erlang.key_url }}
+    - key_url: {{ rabbitmq.pkg.repo.key_url }}
+    - aptkey: False
     - require_in:
       - pkg: rabbitmq-package-install-pkg-installed
 
 rabbitmq-package-repo-rabbitmq:
   pkgrepo.managed:
-    - name: deb {{ rabbitmq.pkg.repo.rabbitmq.url }}/{{ osname|lower }} {{ oscodename }} main
+    - name: deb [arch=amd64 signed-by={{ rabbitmq.pkg.repo.keyring }}] {{ rabbitmq.pkg.repo.rabbitmq.url }}/{{ osname|lower }}/{{ oscodename }} {{ oscodename }} main
     - file: /etc/apt/sources.list.d/rabbitmq.list
-    - key_url: {{ rabbitmq.pkg.repo.rabbitmq.key_url }}
+    - key_url: {{ rabbitmq.pkg.repo.key_url }}
+    - aptkey: False
     - require_in:
       - pkg: rabbitmq-package-install-pkg-installed
 
